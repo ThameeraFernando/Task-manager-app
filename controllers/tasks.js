@@ -1,4 +1,6 @@
 const res = require("express/lib/response");
+//get the model
+const Task = require("../models/Task");
 
 //get all tasks
 const getAlltasks = (req, res) => {
@@ -19,10 +21,13 @@ const deleteTask = (req, res) => {
   res.status(200).send("Delete task");
 };
 //create a task
-const createTask = (req, res) => {
-  const { name, id } = req.body;
-
-  res.status(200).send({ name, id });
+const createTask = async (req, res) => {
+  try {
+    const task = await Task.create(req.body);
+    res.status(201).json({ task });
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
 };
 
 module.exports = {
