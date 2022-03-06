@@ -5,6 +5,8 @@ const router = require("./routes/tasks");
 require("./db/connection");
 //get connection method
 const connectDB = require("./db/connection");
+const notFound = require("./middleware/not-found");
+const errorHandler = require("./middleware/error");
 //get connection string
 require("dotenv").config();
 //public assets
@@ -13,7 +15,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //set routes
 app.use("/api/v1/tasks", router);
-
+app.use(notFound);
+app.use(errorHandler);
 //app.get('/api/v1/tasks')          -get all tasks
 //app.post('/api/v1/tasks')         -create a new tasks
 //app.get('/api/v1/tasks:id');      -get single tasks
